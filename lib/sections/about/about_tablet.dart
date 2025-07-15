@@ -69,7 +69,7 @@ class AboutTablet extends StatelessWidget {
               InkWell(
                 onTap: () {
                   launchUrl(Uri.parse(
-                      "https://drive.google.com/file/d/1lvCBqGTFv81oQn9_R8VHunss9-3U3r3h/view?usp=sharing"));
+                      "https://drive.google.com/file/d/1mvm-9p8FUSK_EcU-_e-umFFp1IMMISyi/view?usp=sharing"));
                 },
                 child: Container(
                   width: 220,

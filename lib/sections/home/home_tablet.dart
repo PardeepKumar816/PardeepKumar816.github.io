@@ -245,6 +245,11 @@ class HomeTablet extends StatelessWidget {
                             ),
                           ),
                           GestureDetector(
+                            onTap: () {
+                              launchUrl(
+                                Uri.parse("https://wa.me/923353146121"),
+                              );
+                            },
                             child: Column(
                               children: [
                                 const Text(
@@ -537,7 +542,7 @@ class TabletBarExtended extends StatelessWidget {
                       );
                     },
                     child: const Text(
-                      "Experience",
+                      "Contact",
                       style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontSize: 16,

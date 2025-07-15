@@ -2,11 +2,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:protfolio/models/project_model.dart';
 import 'package:protfolio/responsive/responsive.dart';
 import 'package:protfolio/utils/device_size.dart';
 import 'package:protfolio/utils/my_colors.dart';
 import 'package:protfolio/widgets/image_viewer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProjectsDesktop extends StatelessWidget {
   const ProjectsDesktop({super.key});
@@ -316,16 +318,36 @@ class ProjectCard extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    const ProjectURLButtonWidget(
-                      iconPath: "assets/icons/google_play.svg",
-                      text: "Play Store",
+                    GestureDetector(
+                      onTap: () {
+                        if (project.playStoreLink.isNotEmpty) {
+                          launchUrl(Uri.parse(project.playStoreLink));
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: "App will be available soon");
+                        }
+                      },
+                      child: const ProjectURLButtonWidget(
+                        iconPath: "assets/icons/google_play.svg",
+                        text: "Play Store",
+                      ),
                     ),
                     const SizedBox(
                       width: 8,
                     ),
-                    const ProjectURLButtonWidget(
-                      iconPath: "assets/icons/appstore.svg",
-                      text: "App Store",
+                    GestureDetector(
+                      onTap: () {
+                        if (project.appStoreLink.isNotEmpty) {
+                          launchUrl(Uri.parse(project.appStoreLink));
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: "App will be available soon");
+                        }
+                      },
+                      child: const ProjectURLButtonWidget(
+                        iconPath: "assets/icons/appstore.svg",
+                        text: "App Store",
+                      ),
                     ),
                     const SizedBox(
                       width: 8,
@@ -387,18 +409,26 @@ class ProjectURLButtonWidget extends StatelessWidget {
 List<Project> projects = [
   Project(
     images: [
-      "assets/images/projects/pelican/splash.jpg",
-      "assets/images/projects/pelican/login.jpg",
-      "assets/images/projects/pelican/accountSettings.jpg",
-      "assets/images/projects/pelican/Draft.jpg",
-      "assets/images/projects/pelican/Locations.jpg",
-      "assets/images/projects/pelican/Form.jpg",
+      "assets/images/projects/litsports/splash.png",
+      "assets/images/projects/litsports/home.png",
+      "assets/images/projects/litsports/comments.png",
+      "assets/images/projects/litsports/childprofile.png",
+      "assets/images/projects/litsports/userprofile.png",
+      "assets/images/projects/litsports/chat.png",
+      "assets/images/projects/litsports/group.png",
+      "assets/images/projects/litsports/quiz.png",
+      "assets/images/projects/litsports/timer.png",
+      "assets/images/projects/litsports/goal.png",
+      "assets/images/projects/litsports/leaderboard.png",
+      "assets/images/projects/litsports/parent.png",
+      "assets/images/projects/litsports/coach.jpg",
     ],
-    name: "Pelican State Treating",
+    name: "ILL-Lit Sports",
     githubLink: "",
-    playStoreLink: "",
+    playStoreLink:
+        "https://play.google.com/store/apps/details?id=com.production.ill_lit_sports_app&pcampaignid=web_share",
     isProduct: false,
-    appStoreLink: "",
+    appStoreLink: "https://apps.apple.com/pk/app/ill-lit-sports/id6743541927",
   ),
   Project(
     images: [
@@ -418,30 +448,9 @@ List<Project> projects = [
     githubLink: "",
     playStoreLink: "",
     isProduct: false,
-    appStoreLink: "",
+    appStoreLink: "https://apps.apple.com/pk/app/oceanicview-mart/id6733253406",
   ),
-  Project(
-    images: [
-      "assets/images/projects/litsports/splash.png",
-      "assets/images/projects/litsports/home.png",
-      "assets/images/projects/litsports/comments.png",
-      "assets/images/projects/litsports/childprofile.png",
-      "assets/images/projects/litsports/userprofile.png",
-      "assets/images/projects/litsports/chat.png",
-      "assets/images/projects/litsports/group.png",
-      "assets/images/projects/litsports/quiz.png",
-      "assets/images/projects/litsports/timer.png",
-      "assets/images/projects/litsports/goal.png",
-      "assets/images/projects/litsports/leaderboard.png",
-      "assets/images/projects/litsports/parent.png",
-      "assets/images/projects/litsports/coach.jpg",
-    ],
-    name: "ILL-Lit Sports",
-    githubLink: "",
-    playStoreLink: "",
-    isProduct: false,
-    appStoreLink: "",
-  ),
+
   Project(
     images: [
       "assets/images/projects/thrillpay/splash.png",
@@ -463,40 +472,55 @@ List<Project> projects = [
   ),
   Project(
     images: [
-      "assets/images/projects/checkin/qr.png",
-      "assets/images/projects/checkin/checkin.png",
-      "assets/images/projects/checkin/home.png",
-      "assets/images/projects/checkin/orderfood.png",
-      "assets/images/projects/checkin/cart.png",
-      "assets/images/projects/checkin/Minibar.png",
-      "assets/images/projects/checkin/Laundry.png",
-      "assets/images/projects/checkin/MyBill.png",
-      "assets/images/projects/checkin/PaymentMethod.png",
-      "assets/images/projects/checkin/Payviacard.png",
+      "assets/images/projects/pelican/splash.jpg",
+      "assets/images/projects/pelican/login.jpg",
+      "assets/images/projects/pelican/accountSettings.jpg",
+      "assets/images/projects/pelican/Draft.jpg",
+      "assets/images/projects/pelican/Locations.jpg",
+      "assets/images/projects/pelican/Form.jpg",
     ],
-    name: "Funotel Check-In",
+    name: "Pelican State Treating",
     githubLink: "",
     playStoreLink: "",
     isProduct: false,
     appStoreLink: "",
   ),
-  Project(
-    images: [
-      "assets/images/projects/checkin/qr.png",
-      "assets/images/projects/checkin/checkin.png",
-      "assets/images/projects/checkin/home.png",
-      "assets/images/projects/checkin/orderfood.png",
-      "assets/images/projects/checkin/cart.png",
-      "assets/images/projects/checkin/Minibar.png",
-      "assets/images/projects/checkin/Laundry.png",
-      "assets/images/projects/checkin/MyBill.png",
-      "assets/images/projects/checkin/PaymentMethod.png",
-      "assets/images/projects/checkin/Payviacard.png",
-    ],
-    name: "Funotel Creator",
-    githubLink: "",
-    playStoreLink: "",
-    isProduct: false,
-    appStoreLink: "",
-  ),
+  // Project(
+  //   images: [
+  //     "assets/images/projects/checkin/qr.png",
+  //     "assets/images/projects/checkin/checkin.png",
+  //     "assets/images/projects/checkin/home.png",
+  //     "assets/images/projects/checkin/orderfood.png",
+  //     "assets/images/projects/checkin/cart.png",
+  //     "assets/images/projects/checkin/Minibar.png",
+  //     "assets/images/projects/checkin/Laundry.png",
+  //     "assets/images/projects/checkin/MyBill.png",
+  //     "assets/images/projects/checkin/PaymentMethod.png",
+  //     "assets/images/projects/checkin/Payviacard.png",
+  //   ],
+  //   name: "Funotel Check-In",
+  //   githubLink: "",
+  //   playStoreLink: "",
+  //   isProduct: false,
+  //   appStoreLink: "",
+  // ),
+  // Project(
+  //   images: [
+  //     "assets/images/projects/checkin/qr.png",
+  //     "assets/images/projects/checkin/checkin.png",
+  //     "assets/images/projects/checkin/home.png",
+  //     "assets/images/projects/checkin/orderfood.png",
+  //     "assets/images/projects/checkin/cart.png",
+  //     "assets/images/projects/checkin/Minibar.png",
+  //     "assets/images/projects/checkin/Laundry.png",
+  //     "assets/images/projects/checkin/MyBill.png",
+  //     "assets/images/projects/checkin/PaymentMethod.png",
+  //     "assets/images/projects/checkin/Payviacard.png",
+  //   ],
+  //   name: "Funotel Creator",
+  //   githubLink: "",
+  //   playStoreLink: "",
+  //   isProduct: false,
+  //   appStoreLink: "",
+  // ),
 ];

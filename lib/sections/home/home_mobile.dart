@@ -221,6 +221,11 @@ class HomeMobile extends StatelessWidget {
                             ),
                           ),
                           GestureDetector(
+                            onTap: () {
+                              launchUrl(
+                                Uri.parse("https://wa.me/923353146121"),
+                              );
+                            },
                             child: Column(
                               children: [
                                 const Text(
