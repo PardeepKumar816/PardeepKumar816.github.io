@@ -4,10 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:protfolio/models/project_model.dart';
-import 'package:protfolio/responsive/responsive.dart';
 import 'package:protfolio/utils/device_size.dart';
 import 'package:protfolio/utils/my_colors.dart';
-import 'package:protfolio/widgets/image_viewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProjectsDesktop extends StatelessWidget {
@@ -98,207 +96,28 @@ class ProjectCard extends StatelessWidget {
           350,
       height: 250,
       decoration: BoxDecoration(
-        gradient: MyColors.linearGradient,
+        gradient: project.gradient,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         children: [
           Expanded(
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: project.images
-                        .sublist(
-                            0,
-                            isDesktop()
-                                ? getDeviceSize(context).width > 1120
-                                    ? 5
-                                    : 3
-                                : isTablet()
-                                    ? 3
-                                    : getDeviceSize(context).width > 450
-                                        ? 3
-                                        : 2)
-                        .asMap()
-                        .entries
-                        .map((entry) {
-                      int index = entry.key;
-                      String imagePath = entry.value;
-
-                      int visibleImagesCount = isDesktop()
-                          ? getDeviceSize(context).width > 1120
-                              ? 5
-                              : 3
-                          : isTablet()
-                              ? 3
-                              : getDeviceSize(context).width > 450
-                                  ? 3
-                                  : 2;
-
-                      int remainingImages =
-                          project.images.length - visibleImagesCount;
-                      bool isLastVisibleImage =
-                          index == visibleImagesCount - 1 &&
-                              remainingImages > 0;
-
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ImageViewer(
-                                  images: project.images,
-                                  initialIndex:
-                                      project.images.indexOf(imagePath),
-                                ),
-                              ),
-                            );
-                          },
-                          child: Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(4),
-                                child: Image.asset(
-                                  imagePath,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              if (isLastVisibleImage)
-                                Positioned.fill(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.6),
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "+$remainingImages",
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                if (project.isProduct)
-                  Positioned(
-                    top: 8,
-                    left: 8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 3),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: MyColors.yellowE3C01C,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: const Text(
-                        "Product",
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                  )
-              ],
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(
+                width: 1.sw,
+                project.images[0],
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-
-          // Expanded(
-          //   child: Stack(
-          //     children: [
-          //       ClipRRect(
-          //         borderRadius: const BorderRadius.all(
-          //           Radius.circular(10),
-          //         ),
-          //         child: Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //           children: project.images
-          //               .sublist(
-          //                   0,
-          //                   isDesktop()
-          //                       ? getDeviceSize(context).width > 1120
-          //                           ? 5
-          //                           : 3
-          //                       : isTablet()
-          //                           ? 3
-          //                           : 3)
-          //               .map((e) {
-          //             return Padding(
-          //               padding: const EdgeInsets.only(top: 8),
-          //               child: InkWell(
-          //                 onTap: () {
-          //                   Navigator.push(
-          //                     context,
-          //                     MaterialPageRoute(
-          //                       builder: (context) => ImageViewer(
-          //                         images: project.images,
-          //                         initialIndex: project.images.indexOf(e),
-          //                       ),
-          //                     ),
-          //                   );
-          //                 },
-          //                 child: ClipRRect(
-          //                   borderRadius: BorderRadius.circular(4),
-          //                   child: Image.asset(
-          //                     e,
-          //                     fit: BoxFit.cover,
-          //                   ),
-          //                 ),
-          //               ),
-          //             );
-          //           }).toList(),
-          //         ),
-          //       ),
-          //       if (project.isProduct)
-          //         Positioned(
-          //           top: 8,
-          //           left: 8,
-          //           child: Container(
-          //             padding: const EdgeInsets.symmetric(
-          //                 horizontal: 8, vertical: 3),
-          //             alignment: Alignment.center,
-          //             decoration: BoxDecoration(
-          //               color: MyColors.yellowE3C01C,
-          //               borderRadius: BorderRadius.circular(6),
-          //             ),
-          //             child: const Text(
-          //               "Product",
-          //               style: TextStyle(
-          //                   fontFamily: 'Montserrat',
-          //                   color: Colors.black,
-          //                   fontSize: 12,
-          //                   fontWeight: FontWeight.w400),
-          //             ),
-          //           ),
-          //         )
-          //     ],
-          //   ),
-          // ),
           Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 10,
               vertical: 24,
             ),
             decoration: BoxDecoration(
-              gradient: MyColors.linearGradient,
+              gradient: project.gradient,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
@@ -361,7 +180,7 @@ class ProjectCard extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -394,12 +213,15 @@ class ProjectURLButtonWidget extends StatelessWidget {
           const SizedBox(
             width: 5,
           ),
-          Text(text,
-              style: const TextStyle(
-                  fontFamily: 'Montserrat',
-                  color: Colors.black,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400)),
+          Text(
+            text,
+            style: const TextStyle(
+              fontFamily: 'Montserrat',
+              color: Colors.black,
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
         ],
       ),
     );
@@ -409,19 +231,7 @@ class ProjectURLButtonWidget extends StatelessWidget {
 List<Project> projects = [
   Project(
     images: [
-      "assets/images/projects/litsports/splash.png",
-      "assets/images/projects/litsports/home.png",
-      "assets/images/projects/litsports/comments.png",
-      "assets/images/projects/litsports/childprofile.png",
-      "assets/images/projects/litsports/userprofile.png",
-      "assets/images/projects/litsports/chat.png",
-      "assets/images/projects/litsports/group.png",
-      "assets/images/projects/litsports/quiz.png",
-      "assets/images/projects/litsports/timer.png",
-      "assets/images/projects/litsports/goal.png",
-      "assets/images/projects/litsports/leaderboard.png",
-      "assets/images/projects/litsports/parent.png",
-      "assets/images/projects/litsports/coach.jpg",
+      "assets/images/projects/litsports/Feature Banner.jpg",
     ],
     name: "ILL-Lit Sports",
     githubLink: "",
@@ -429,61 +239,57 @@ List<Project> projects = [
         "https://play.google.com/store/apps/details?id=com.production.ill_lit_sports_app&pcampaignid=web_share",
     isProduct: false,
     appStoreLink: "https://apps.apple.com/pk/app/ill-lit-sports/id6743541927",
+    gradient: MyColors.linearGradient,
   ),
   Project(
-    images: [
-      "assets/images/projects/oceanicview/Splash.png",
-      "assets/images/projects/oceanicview/ChooseLanguage.png",
-      "assets/images/projects/oceanicview/Home.png",
-      "assets/images/projects/oceanicview/UploadyourPhotosVideo.png",
-      "assets/images/projects/oceanicview/PaymentMethod.png",
-      "assets/images/projects/oceanicview/PayandPost.png",
-      "assets/images/projects/oceanicview/ProductDetail.png",
-      "assets/images/projects/oceanicview/Statistics.png",
-      "assets/images/projects/oceanicview/Home-2.png",
-      "assets/images/projects/oceanicview/HomewithPopup.png",
-      "assets/images/projects/oceanicview/PersonalChat.png",
-    ],
-    name: "OceanicView",
-    githubLink: "",
-    playStoreLink: "",
-    isProduct: false,
-    appStoreLink: "https://apps.apple.com/pk/app/oceanicview-mart/id6733253406",
-  ),
+      images: [
+        "assets/images/projects/oceanicview/oceanicview.png",
+      ],
+      name: "OceanicView",
+      githubLink: "",
+      playStoreLink: "",
+      isProduct: false,
+      appStoreLink:
+          "https://apps.apple.com/pk/app/oceanicview-mart/id6733253406",
+      gradient: const LinearGradient(
+        colors: [
+          Color(0xFFFFE09D),
+          Color(0xFFD9B25D),
+          Color(0xFFFFF09A),
+          Color(0xFFFFD980),
+          Color(0xFFA57E29),
+        ],
+      )),
 
   Project(
     images: [
-      "assets/images/projects/thrillpay/splash.png",
-      "assets/images/projects/thrillpay/login.png",
-      "assets/images/projects/thrillpay/Dashboard.png",
-      "assets/images/projects/thrillpay/detail.png",
-      "assets/images/projects/thrillpay/Categories.png",
-      "assets/images/projects/thrillpay/qr.png",
-      "assets/images/projects/thrillpay/Favorites.png",
-      "assets/images/projects/thrillpay/review.png",
-      "assets/images/projects/thrillpay/Wallet.png",
-      "assets/images/projects/thrillpay/Account.png",
+      "assets/images/projects/thrillpay/Feature Banner.png",
     ],
     name: "ThrillPay",
     githubLink: "",
     playStoreLink: "",
     isProduct: false,
     appStoreLink: "",
+    gradient: const LinearGradient(
+      colors: [
+        Color(0xffF3701B),
+        Color(0xffF80A60),
+        Color(0xffA216DC),
+      ],
+    ),
   ),
   Project(
     images: [
-      "assets/images/projects/pelican/splash.jpg",
-      "assets/images/projects/pelican/login.jpg",
-      "assets/images/projects/pelican/accountSettings.jpg",
-      "assets/images/projects/pelican/Draft.jpg",
-      "assets/images/projects/pelican/Locations.jpg",
-      "assets/images/projects/pelican/Form.jpg",
+      "assets/images/projects/pelican/pelican.jpg",
     ],
     name: "Pelican State Treating",
     githubLink: "",
     playStoreLink: "",
     isProduct: false,
     appStoreLink: "",
+    gradient: const LinearGradient(
+      colors: [Color(0xff335E3B), Color(0xff335E3B)],
+    ),
   ),
   // Project(
   //   images: [

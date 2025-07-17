@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 class Project {
   final String name;
   final bool isProduct;
@@ -5,6 +7,7 @@ class Project {
   final String githubLink;
   final String playStoreLink;
   final String appStoreLink;
+  final Gradient gradient;
 
   Project({
     required this.appStoreLink,
@@ -13,5 +16,6 @@ class Project {
     required this.isProduct,
     required this.name,
     required this.playStoreLink,
+    required this.gradient,
   });
 }
