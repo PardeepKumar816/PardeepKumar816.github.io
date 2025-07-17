@@ -54,6 +54,7 @@ flutter:
     - assets/images/projects/oceanicview/
     - assets/images/projects/litsports/
     - assets/images/projects/thrillpay/
+    - assets/images/projects/warranty/
 
 
   fonts:

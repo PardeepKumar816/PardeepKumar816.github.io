@@ -137,7 +137,7 @@ class ProjectCard extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    GestureDetector(
+                    InkWell(
                       onTap: () {
                         if (project.playStoreLink.isNotEmpty) {
                           launchUrl(Uri.parse(project.playStoreLink));
@@ -154,7 +154,7 @@ class ProjectCard extends StatelessWidget {
                     const SizedBox(
                       width: 8,
                     ),
-                    GestureDetector(
+                    InkWell(
                       onTap: () {
                         if (project.appStoreLink.isNotEmpty) {
                           launchUrl(Uri.parse(project.appStoreLink));
@@ -258,6 +258,23 @@ List<Project> projects = [
           Color(0xFFFFF09A),
           Color(0xFFFFD980),
           Color(0xFFA57E29),
+        ],
+      )),
+  Project(
+      images: [
+        "assets/images/projects/warranty/warranty.png",
+      ],
+      name: "Warranty Database",
+      githubLink: "",
+      playStoreLink:
+          "https://play.google.com/store/apps/details?id=com.trango.warranty.database.app&pcampaignid=web_share",
+      isProduct: false,
+      appStoreLink:
+          "https://apps.apple.com/pk/app/warranty-database-direct/id6504633019",
+      gradient: const LinearGradient(
+        colors: [
+          Color(0xFFFF0020),
+          Color(0xFFFF0020),
         ],
       )),
 

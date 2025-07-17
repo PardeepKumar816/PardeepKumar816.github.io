@@ -244,7 +244,7 @@ class HomeTablet extends StatelessWidget {
                               ],
                             ),
                           ),
-                          GestureDetector(
+                          InkWell(
                             onTap: () {
                               launchUrl(
                                 Uri.parse("https://wa.me/923353146121"),
