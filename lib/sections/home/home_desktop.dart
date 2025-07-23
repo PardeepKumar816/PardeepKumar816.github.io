@@ -8,11 +8,32 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/multi_line_text_container.dart';
 import '../../widgets/social_container.dart';
 
-class HomeDesktop extends StatelessWidget {
+class HomeDesktop extends StatefulWidget {
   const HomeDesktop({Key? key}) : super(key: key);
 
   @override
+  State<HomeDesktop> createState() => _HomeDesktopState();
+}
+
+class _HomeDesktopState extends State<HomeDesktop> {
+  double _opacity = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Trigger the fade-in after a short delay
+    Future.delayed(const Duration(milliseconds: 100), () {
+      setState(() {
+        _opacity = 1.0;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    double circleSize = getDeviceSize(context).width * 0.38;
+
     return Scaffold(
         backgroundColor: const Color(0xff232129),
         body: Builder(builder: (context) {
@@ -296,27 +317,69 @@ class HomeDesktop extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: Stack(
-                          children: [
-                            Container(
-                              // width: getDeviceSize(context).width * 0.8,
-                              // height: getDeviceSize(context).height * 0.8,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: const Color(0xffB96220).withOpacity(0.1),
+                      const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 200),
+                        child: SizedBox(
+                          width: circleSize,
+                          height: circleSize,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Container(
+                                width: circleSize,
+                                height: circleSize,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color:
+                                      const Color(0xffB96220).withOpacity(0.1),
+                                ),
                               ),
-                            ),
-                            Align(
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                  "assets/images/pardeep.png",
-                                  width: getDeviceSize(context).width * 0.35,
-                                  height: getDeviceSize(context).width * 0.35,
-                                ))
-                          ],
+                              AnimatedOpacity(
+                                duration: const Duration(seconds: 2),
+                                opacity: _opacity,
+                                curve: Curves.easeInOut,
+                                child: ClipOval(
+                                  child: Image.asset(
+                                    "assets/images/pardeep.png",
+                                    width: circleSize,
+                                    height: circleSize,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                      const Spacer(),
+
+                      // Expanded(
+                      //   child: Stack(
+                      //     children: [
+                      //       Container(
+                      //         // width: getDeviceSize(context).width * 0.8,
+                      //         // height: getDeviceSize(context).height * 0.8,
+                      //         decoration: BoxDecoration(
+                      //           shape: BoxShape.circle,
+                      //           color: const Color(0xffB96220).withOpacity(0.1),
+                      //         ),
+                      //       ),
+                      //       Align(
+                      //           alignment: Alignment.center,
+                      //           child: AnimatedOpacity(
+                      //             duration: const Duration(seconds: 2),
+                      //             opacity: _opacity,
+                      //             curve: Curves.easeInOut,
+                      //             child: Image.asset(
+                      //               "assets/images/pardeep.png",
+                      //               width: getDeviceSize(context).width * 0.38,
+                      //               height: getDeviceSize(context).width * 0.38,
+                      //             ),
+                      //           ))
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

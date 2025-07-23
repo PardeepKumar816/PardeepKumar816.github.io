@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:protfolio/constants/constants.dart';
 import 'package:protfolio/utils/device_size.dart';
@@ -30,25 +31,6 @@ class AboutDesktop extends StatelessWidget {
                   fit: BoxFit.fitHeight,
                   "assets/images/pardeep.png",
                 ),
-                // Container(
-                //   alignment: Alignment.topCenter,
-                //   decoration: const BoxDecoration(
-                //     // image: DecorationImage(
-                //     //   fit: BoxFit.contain,
-                //     //   alignment: Alignment.topCenter,
-                //     //   image: AssetImage(
-                //     //     "assets/images/self_image.png",
-                //     //   ),
-                //     // ),
-                //     //  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                //     color: Colors.amber,
-                //   ),
-                //   child: Image.asset(
-                //     alignment: Alignment.topCenter,
-                //     fit: BoxFit.none,
-                //     "assets/images/self_image.png",
-                //   ),
-                // ),
               ),
               SizedBox(
                 width: getDeviceSize(context).width < 1135
@@ -76,6 +58,7 @@ class AboutDesktop extends StatelessWidget {
                       getDeviceSize(context).width > 1340
                           ? const SizedBox(height: 24)
                           : const SizedBox(height: 18),
+
                       Text(
                         aboutData["greeting"]!,
                         style: TextStyle(
@@ -97,29 +80,38 @@ class AboutDesktop extends StatelessWidget {
                             color: Colors.white,
                             fontWeight: FontWeight.w400),
                       ),
-                      //  SizedBox(height: getDeviceSize(context).width*0.02,),
-                      getDeviceSize(context).width > 1340
-                          ? const SizedBox(height: 24)
-                          : const SizedBox(height: 18),
+                      SizedBox(
+                          height:
+                              getDeviceSize(context).width > 1340 ? 24 : 18),
+
+                      /// Bio
                       Padding(
                         padding: EdgeInsets.only(
-                            right:
-                                getDeviceSize(context).width > 1390 ? 60 : 20),
-                        child: Text(
-                          aboutData["bio"]!,
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                            fontSize:
-                                getDeviceSize(context).width > 1340 ? 16 : 15,
-                            letterSpacing: 1,
-                          ),
+                          right: getDeviceSize(context).width > 1390 ? 60 : 20,
+                        ),
+                        child: AnimatedTextKit(
+                          isRepeatingAnimation: false,
+                          repeatForever: false,
+                          totalRepeatCount: 1,
+                          animatedTexts: [
+                            TyperAnimatedText(
+                              aboutData["bio"]!,
+                              textStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                                fontSize: getDeviceSize(context).width > 1340
+                                    ? 16
+                                    : 15,
+                                letterSpacing: 1,
+                              ),
+                              speed: const Duration(
+                                  milliseconds: 10), // slower for long text
+                            ),
+                          ],
                         ),
                       ),
-                      // getDeviceSize(context).width > 1340
-                      //     ? const SizedBox(height: 24)
-                      //     : const SizedBox(height: 18),
+
                       const Spacer(),
                       InkWell(
                         onTap: () {

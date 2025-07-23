@@ -8,9 +8,14 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/multi_line_text_container.dart';
 import '../../widgets/social_container.dart';
 
-class HomeMobile extends StatelessWidget {
+class HomeMobile extends StatefulWidget {
   const HomeMobile({Key? key}) : super(key: key);
 
+  @override
+  State<HomeMobile> createState() => _HomeMobileState();
+}
+
+class _HomeMobileState extends State<HomeMobile> {
   double getConstraints(context) {
     if (getDeviceSize(context).height > 750 &&
         getDeviceSize(context).height < 852) {
@@ -21,6 +26,20 @@ class HomeMobile extends StatelessWidget {
     } else {
       return getDeviceSize(context).width * 0.7;
     }
+  }
+
+  double _opacity = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Trigger the fade-in after a short delay
+    Future.delayed(const Duration(milliseconds: 100), () {
+      setState(() {
+        _opacity = 1.0;
+      });
+    });
   }
 
   @override
@@ -295,21 +314,51 @@ class HomeMobile extends StatelessWidget {
                         bottom: 0,
                         right: 0,
                         left: 0,
-                        child: Image.asset(
-                          "assets/images/pardeep.png",
-                          width: getConstraints(context),
-                          height: getConstraints(context),
+                        child: AnimatedOpacity(
+                          duration: Duration(seconds: 2),
+                          opacity: _opacity,
+                          curve: Curves.easeInOut,
+                          child: Image.asset(
+                            "assets/images/pardeep.png",
+                            width: getConstraints(context),
+                            height: getConstraints(context),
+                          ),
                         ),
                       )
                     : Positioned(
                         bottom: 0,
                         right: 0,
-                        child: Image.asset(
-                          "assets/images/pardeep.png",
-                          width: getDeviceSize(context).width * 0.5,
-                          height: getDeviceSize(context).width * 0.5,
+                        child: AnimatedOpacity(
+                          duration: Duration(seconds: 2),
+                          opacity: _opacity,
+                          curve: Curves.easeInOut,
+                          child: Image.asset(
+                            "assets/images/pardeep.png",
+                            width: getDeviceSize(context).width * 0.5,
+                            height: getDeviceSize(context).width * 0.5,
+                          ),
                         ),
                       ),
+                // getDeviceSize(context).height > 750
+                //     ? Positioned(
+                //         bottom: 0,
+                //         right: 0,
+                //         left: 0,
+                //         child: Image.asset(
+                //           "assets/images/pardeep.png",
+                //           width: getConstraints(context),
+                //           height: getConstraints(context),
+                //         ),
+                //       )
+                //     : Positioned(
+                //         bottom: 0,
+                //         right: 0,
+                //         child: Image.asset(
+                //           "assets/images/pardeep.png",
+                //           width: getDeviceSize(context).width * 0.5,
+                //           height: getDeviceSize(context).width * 0.5,
+                //         ),
+                //       ),
               ],
             );
           },

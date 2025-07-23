@@ -9,8 +9,28 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/multi_line_text_container.dart';
 import '../../widgets/social_container.dart';
 
-class HomeTablet extends StatelessWidget {
+class HomeTablet extends StatefulWidget {
   const HomeTablet({Key? key}) : super(key: key);
+
+  @override
+  State<HomeTablet> createState() => _HomeTabletState();
+}
+
+class _HomeTabletState extends State<HomeTablet> {
+  double _opacity = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Trigger the fade-in after a short delay
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (!mounted) return;
+      setState(() {
+        _opacity = 1.0;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -337,21 +357,50 @@ class HomeTablet extends StatelessWidget {
                                             getDeviceSize(context).width * 0.1,
                                       ),
                                       Container(
-                                        alignment: Alignment.center,
                                         width:
                                             getDeviceSize(context).width * 0.28,
                                         height: getDeviceSize(context).height *
                                             0.28,
+                                        alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           color: const Color(0xffB96220)
                                               .withOpacity(0.3),
-                                          image: const DecorationImage(
-                                            image: AssetImage(
-                                                "assets/images/pardeep.png"),
+                                        ),
+                                        child: AnimatedOpacity(
+                                          duration: const Duration(seconds: 2),
+                                          opacity: _opacity,
+                                          curve: Curves.easeInOut,
+                                          child: ClipOval(
+                                            child: Image.asset(
+                                              "assets/images/pardeep.png",
+                                              width:
+                                                  getDeviceSize(context).width *
+                                                      0.28,
+                                              height: getDeviceSize(context)
+                                                      .height *
+                                                  0.21,
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                      )
+                                      // Container(
+                                      //   alignment: Alignment.center,
+                                      //   width:
+                                      //       getDeviceSize(context).width * 0.28,
+                                      //   height: getDeviceSize(context).height *
+                                      //       0.28,
+                                      //   decoration: BoxDecoration(
+                                      //     shape: BoxShape.circle,
+                                      //     color: const Color(0xffB96220)
+                                      //         .withOpacity(0.3),
+                                      //     image: const DecorationImage(
+                                      //       image: AssetImage(
+                                      //           "assets/images/pardeep.png"),
+                                      //     ),
+                                      //   ),
+                                      // ),
                                     ],
                                   )
                                 : Row(
@@ -388,10 +437,15 @@ class HomeTablet extends StatelessWidget {
                     if (getDeviceSize(context).width > 767 &&
                         getDeviceSize(context).height < 1000)
                       Expanded(
-                          child: Image.asset(
-                        "assets/images/pardeep.png",
-                        width: getDeviceSize(context).width * 0.35,
-                        height: getDeviceSize(context).width * 0.35,
+                          child: AnimatedOpacity(
+                        duration: const Duration(seconds: 2),
+                        opacity: _opacity,
+                        curve: Curves.easeInOut,
+                        child: Image.asset(
+                          "assets/images/pardeep.png",
+                          width: getDeviceSize(context).width * 0.35,
+                          height: getDeviceSize(context).width * 0.35,
+                        ),
                       ))
                   ],
                 ),
@@ -399,10 +453,15 @@ class HomeTablet extends StatelessWidget {
                   SizedBox(
                       width: getDeviceSize(context).width,
                       height: getDeviceSize(context).height / 2,
-                      child: Image.asset(
-                        "assets/images/pardeep.png",
-                        width: getDeviceSize(context).width * 0.35,
-                        height: getDeviceSize(context).width * 0.35,
+                      child: AnimatedOpacity(
+                        duration: const Duration(seconds: 2),
+                        opacity: _opacity,
+                        curve: Curves.easeInOut,
+                        child: Image.asset(
+                          "assets/images/pardeep.png",
+                          width: getDeviceSize(context).width * 0.35,
+                          height: getDeviceSize(context).width * 0.35,
+                        ),
                       ))
               ],
             );

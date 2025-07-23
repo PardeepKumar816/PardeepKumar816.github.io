@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:protfolio/utils/my_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -55,16 +56,35 @@ class AboutTablet extends StatelessWidget {
                   height: getDeviceSize(context).width < 815
                       ? getDeviceSize(context).width * 0.02
                       : getDeviceSize(context).width * 0.02),
-              Text(
-                aboutData["bio"]!,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400,
-                    fontSize: getDeviceSize(context).width < 815 ? 12 : 16,
-                    letterSpacing: 1),
+              AnimatedTextKit(
+                isRepeatingAnimation: false,
+                repeatForever: false,
+                totalRepeatCount: 1,
+                animatedTexts: [
+                  TyperAnimatedText(
+                    aboutData["bio"]!,
+                    textStyle: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                      fontSize: getDeviceSize(context).width < 815 ? 12 : 16,
+                      letterSpacing: 1,
+                    ),
+                    speed: const Duration(
+                        milliseconds: 10), // slower for long text
+                  ),
+                ],
               ),
+              // Text(
+              //   aboutData["bio"]!,
+              //   textAlign: TextAlign.center,
+              //   style: TextStyle(
+              //       fontFamily: 'Montserrat',
+              //       color: Colors.white,
+              //       fontWeight: FontWeight.w400,
+              //       fontSize: getDeviceSize(context).width < 815 ? 12 : 16,
+              //       letterSpacing: 1),
+              // ),
               const Spacer(),
               InkWell(
                 onTap: () {
