@@ -284,9 +284,10 @@ List<Project> projects = [
     ],
     name: "ThrillPay",
     githubLink: "",
-    playStoreLink: "",
+    playStoreLink:
+        "https://play.google.com/store/apps/details?id=com.trangotech.thrillpayapp&pcampaignid=web_share",
     isProduct: false,
-    appStoreLink: "",
+    appStoreLink: "https://apps.apple.com/us/app/thrillpay/id6749641663",
     gradient: const LinearGradient(
       colors: [
         Color(0xffF3701B),
