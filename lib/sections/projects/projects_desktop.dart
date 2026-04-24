@@ -230,6 +230,55 @@ class ProjectURLButtonWidget extends StatelessWidget {
 
 List<Project> projects = [
   Project(
+      images: [
+        "assets/images/projects/listcrime/listcrime.png",
+      ],
+      name: "ListCrime",
+      githubLink: "",
+      playStoreLink:
+          "https://play.google.com/store/apps/details?id=com.listcrimellc.listcrimeapp&pcampaignid=web_share",
+      isProduct: false,
+      appStoreLink: "https://apps.apple.com/pk/app/listcrime/id6741329363",
+      gradient: const LinearGradient(
+        colors: [
+          Color(0xFF00468c),
+          Color(0xFF56c8d6),
+        ],
+      )),
+  Project(
+      images: [
+        "assets/images/projects/saveabite/saveabite.png",
+      ],
+      name: "Save A Bite",
+      githubLink: "",
+      playStoreLink:
+          "https://play.google.com/store/apps/details?id=com.dev.saveabite.save_a_bite&pcampaignid=web_share",
+      isProduct: false,
+      appStoreLink: "https://apps.apple.com/pk/app/save-a-bite/id6746266615",
+      gradient: const LinearGradient(
+        colors: [
+          Color(0xFF017fdd),
+          Color(0xFF4aa5e7),
+        ],
+      )),
+  Project(
+      images: [
+        "assets/images/projects/chatsend/chatsend.png",
+      ],
+      name: "ChatSend",
+      githubLink: "",
+      playStoreLink:
+          "https://play.google.com/store/apps/details?id=com.dev.chatnsend&pcampaignid=web_share",
+      isProduct: false,
+      appStoreLink: "",
+      gradient: const LinearGradient(
+        colors: [
+          Color(0xFF2596be),
+          Color(0xFF2596be),
+        ],
+      )),
+
+  Project(
     images: [
       "assets/images/projects/litsports/Feature Banner.jpg",
     ],
@@ -241,25 +290,7 @@ List<Project> projects = [
     appStoreLink: "https://apps.apple.com/pk/app/ill-lit-sports/id6743541927",
     gradient: MyColors.linearGradient,
   ),
-  Project(
-      images: [
-        "assets/images/projects/oceanicview/oceanicview.png",
-      ],
-      name: "OceanicView",
-      githubLink: "",
-      playStoreLink: "",
-      isProduct: false,
-      appStoreLink:
-          "https://apps.apple.com/pk/app/oceanicview-mart/id6733253406",
-      gradient: const LinearGradient(
-        colors: [
-          Color(0xFFFFE09D),
-          Color(0xFFD9B25D),
-          Color(0xFFFFF09A),
-          Color(0xFFFFD980),
-          Color(0xFFA57E29),
-        ],
-      )),
+
   Project(
       images: [
         "assets/images/projects/warranty/warranty.png",
@@ -296,6 +327,25 @@ List<Project> projects = [
       ],
     ),
   ),
+  Project(
+      images: [
+        "assets/images/projects/oceanicview/oceanicview.png",
+      ],
+      name: "OceanicView",
+      githubLink: "",
+      playStoreLink: "",
+      isProduct: false,
+      appStoreLink:
+          "https://apps.apple.com/pk/app/oceanicview-mart/id6733253406",
+      gradient: const LinearGradient(
+        colors: [
+          Color(0xFFFFE09D),
+          Color(0xFFD9B25D),
+          Color(0xFFFFF09A),
+          Color(0xFFFFD980),
+          Color(0xFFA57E29),
+        ],
+      )),
   Project(
     images: [
       "assets/images/projects/pelican/pelican.jpg",
