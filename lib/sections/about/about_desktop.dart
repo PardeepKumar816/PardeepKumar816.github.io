@@ -116,7 +116,7 @@ class AboutDesktop extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           launchUrl(Uri.parse(
-                              "https://drive.google.com/file/d/1mvm-9p8FUSK_EcU-_e-umFFp1IMMISyi/view?usp=sharing"));
+                              "https://drive.google.com/file/d/1ZijP8uSMNYN_scX2uReZ_cDW8vRvci1f/view?usp=sharing"));
                         },
                         child: Container(
                           width: 220,

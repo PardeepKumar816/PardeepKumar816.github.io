@@ -72,7 +72,7 @@ class _HomeMobileState extends State<HomeMobile> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4))),
                             child: const Text(
-                              "Full Stack Flutter Expert",
+                              "Full Stack Mobile Engineer",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
@@ -157,6 +157,14 @@ class _HomeMobileState extends State<HomeMobile> {
                                   ),
                                   TyperAnimatedText(
                                     'Core Java Developer,',
+                                    textStyle: const TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  TyperAnimatedText(
+                                    'AI Engineer,',
                                     textStyle: const TextStyle(
                                       fontFamily: 'Montserrat',
                                       fontWeight: FontWeight.w400,
@@ -278,7 +286,7 @@ class _HomeMobileState extends State<HomeMobile> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       const MultilineTextContainer(
-                                        text1: "3",
+                                        text1: "4",
                                         text2: "Years",
                                         text3: "Experience",
                                       ),
