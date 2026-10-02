@@ -7,10 +7,9 @@ import 'package:protfolio/theme/app_theme.dart';
 abstract final class Profile {
   static const String name = 'Pardeep Kumar';
   static const String initials = 'PK';
-  static const String title =
-      'Full Stack Mobile & Backend Engineer';
+  static const String title = 'Full Stack Mobile & Backend Engineer';
   static const String summary =
-      'Full Stack Mobile & Backend Engineer with 4+ years shipping '
+      'Full Stack Mobile & Backend Engineer with 5+ years shipping '
       'production software across fintech, healthcare, IoT and education. '
       'I have delivered 11 production applications, cut app size by 61% and '
       'reduced API latency by 40%. Currently building production-grade AI '
@@ -66,14 +65,19 @@ abstract final class PortfolioData {
         'Built real-time features on WebSocket and REST APIs consumed by '
             'Flutter clients across Android and iOS.',
       ],
-      stack: <String>['Flutter', 'Node.js', 'Python', 'LangGraph', 'PostgreSQL'],
+      stack: <String>[
+        'Flutter',
+        'Node.js',
+        'Python',
+        'LangGraph',
+        'PostgreSQL'
+      ],
     ),
     Experience(
       role: 'Software Engineer',
       company: 'EPlanet Global',
       period: 'Mar 2024 - Jan 2026',
-      summary:
-          'Owned multiple client projects end to end, from architecture '
+      summary: 'Owned multiple client projects end to end, from architecture '
           'through to production release and support.',
       highlights: <String>[
         'Recognised as Employee of the Quarter for taking full ownership of '
@@ -106,13 +110,12 @@ abstract final class PortfolioData {
       role: 'Flutter Developer',
       company: 'Alt-Ed',
       period: 'Feb 2022 - Sep 2022',
-      summary:
-          'Built modular, cross-platform Flutter modules for an education '
+      summary: 'Built modular, cross-platform Flutter modules for an education '
           'platform.',
       highlights: <String>[
-            'Developed reusable modular Flutter packages consumed by multiple '
-                'product surfaces.',
-            'Implemented responsive layouts and platform-specific behaviour.',
+        'Developed reusable modular Flutter packages consumed by multiple '
+            'product surfaces.',
+        'Implemented responsive layouts and platform-specific behaviour.',
       ],
       stack: <String>['Flutter', 'Dart'],
     ),
@@ -124,9 +127,9 @@ abstract final class PortfolioData {
           'Introduced Flutter to a JavaScript-heavy codebase and delivered '
           'the first mobile builds.',
       highlights: <String>[
-            'Delivered the first Flutter mobile build for a JavaScript '
-                'codebase.',
-            'Established mobile build and release tooling.',
+        'Delivered the first Flutter mobile build for a JavaScript '
+            'codebase.',
+        'Established mobile build and release tooling.',
       ],
       stack: <String>['Flutter', 'JavaScript'],
     ),
@@ -215,8 +218,7 @@ abstract final class PortfolioData {
     ),
     Project(
       name: 'ChatSend',
-      tagline:
-          'Real-time messaging application built on WebSocket delivery.',
+      tagline: 'Real-time messaging application built on WebSocket delivery.',
       image: 'assets/images/projects/chatsend/chatsend.png',
       playStoreLink:
           'https://play.google.com/store/apps/details?id=com.dev.chatnsend',
@@ -230,7 +232,7 @@ abstract final class PortfolioData {
       tagline:
           'Youth sports platform covering tournaments, leaderboards, quizzes '
           'and parent and coach views.',
-      image: 'assets/images/projects/litsports/Feature Banner.jpg',
+      image: 'assets/images/projects/litsports/feature-banner.jpg',
       playStoreLink:
           'https://play.google.com/store/apps/details?id=com.production.ill_lit_sports_app',
       appStoreLink: 'https://apps.apple.com/pk/app/ill-lit-sports/id6743541927',
@@ -239,8 +241,7 @@ abstract final class PortfolioData {
     ),
     Project(
       name: 'Warranty Database',
-      tagline:
-          'Warranty and asset tracking system for consumer product '
+      tagline: 'Warranty and asset tracking system for consumer product '
           'guarantees and service history.',
       image: 'assets/images/projects/warranty/warranty.png',
       playStoreLink:
@@ -257,20 +258,23 @@ abstract final class PortfolioData {
       tagline:
           'Payments and wallet application covering categories, saved cards '
           'and QR-based transfers.',
-      image: 'assets/images/projects/thrillpay/Feature Banner.png',
+      image: 'assets/images/projects/thrillpay/feature-banner.png',
       playStoreLink:
           'https://play.google.com/store/apps/details?id=com.trangotech.thrillpayapp',
       appStoreLink: 'https://apps.apple.com/us/app/thrillpay/id6749641663',
       note: 'App Store listing withdrawn at the client’s request',
       stack: <String>['Flutter', 'Payments', 'Security'],
       gradient: LinearGradient(
-        colors: <Color>[Color(0xFFF3701B), Color(0xFFF80A60), Color(0xFFA216DC)],
+        colors: <Color>[
+          Color(0xFFF3701B),
+          Color(0xFFF80A60),
+          Color(0xFFA216DC)
+        ],
       ),
     ),
     Project(
       name: 'OceanicView',
-      tagline:
-          'Social travel and photo-sharing app with personal chat and '
+      tagline: 'Social travel and photo-sharing app with personal chat and '
           'multi-language support.',
       image: 'assets/images/projects/oceanicview/oceanicview.png',
       appStoreLink:
@@ -313,8 +317,7 @@ abstract final class PortfolioData {
     ),
     Project(
       name: 'InterviewAI',
-      tagline:
-          'Agentic interview practice system with automated question flow '
+      tagline: 'Agentic interview practice system with automated question flow '
           'and structured feedback.',
       stack: <String>['Python', 'LangChain', 'LangSmith'],
       gradient: LinearGradient(

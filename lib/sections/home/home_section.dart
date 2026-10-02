@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:protfolio/core/breakpoints.dart';
-import 'package:protfolio/core/launcher.dart';
 import 'package:protfolio/core/section_keys.dart';
-import 'package:protfolio/core/section_navigator.dart';
 import 'package:protfolio/data/portfolio_data.dart';
 import 'package:protfolio/models/stat_model.dart';
 import 'package:protfolio/theme/app_theme.dart';
-import 'package:protfolio/widgets/action_button.dart';
 import 'package:protfolio/widgets/section.dart';
 import 'package:protfolio/widgets/social_links.dart';
 
@@ -39,32 +36,33 @@ class HomeSection extends StatelessWidget {
         const SizedBox(height: 18),
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 560),
-          child: Text(Profile.summary, style: Theme.of(context).textTheme.bodyLarge),
+          child: Text(Profile.summary,
+              style: Theme.of(context).textTheme.bodyLarge),
         ),
-        const SizedBox(height: 26),
-        Wrap(
-          spacing: 12,
-          runSpacing: 12,
-          children: <Widget>[
-            ActionButton(
-              label: 'Download resume',
-              icon: Icons.download_rounded,
-              onPressed: () => Launcher.open(context, Profile.resume),
-            ),
-            ActionButton(
-              label: 'View projects',
-              icon: Icons.arrow_forward_rounded,
-              variant: ActionVariant.secondary,
-              onPressed: () => SectionNavigator.goToProjects(),
-            ),
-            ActionButton(
-              label: 'Email me',
-              icon: Icons.mail_outline_rounded,
-              variant: ActionVariant.ghost,
-              onPressed: () => Launcher.open(context, 'mailto:${Profile.email}'),
-            ),
-          ],
-        ),
+        // const SizedBox(height: 26),
+        // Wrap(
+        //   spacing: 12,
+        //   runSpacing: 12,
+        //   children: <Widget>[
+        //     ActionButton(
+        //       label: 'Download resume',
+        //       icon: Icons.download_rounded,
+        //       onPressed: () => Launcher.open(context, Profile.resume),
+        //     ),
+        //     ActionButton(
+        //       label: 'View projects',
+        //       icon: Icons.arrow_forward_rounded,
+        //       variant: ActionVariant.secondary,
+        //       onPressed: () => SectionNavigator.goToProjects(),
+        //     ),
+        //     ActionButton(
+        //       label: 'Email me',
+        //       icon: Icons.mail_outline_rounded,
+        //       variant: ActionVariant.ghost,
+        //       onPressed: () => Launcher.open(context, 'mailto:${Profile.email}'),
+        //     ),
+        //   ],
+        // ),
         const SizedBox(height: 30),
         const SocialLinks(alignment: WrapAlignment.start),
         const SizedBox(height: 36),
@@ -117,7 +115,8 @@ class _AvailabilityPill extends StatelessWidget {
           Container(
             width: 7,
             height: 7,
-            decoration: BoxDecoration(color: scheme.primary, shape: BoxShape.circle),
+            decoration:
+                BoxDecoration(color: scheme.primary, shape: BoxShape.circle),
           ),
           const SizedBox(width: 8),
           Text(
@@ -171,9 +170,10 @@ class _StatsRow extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         stat.value,
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                       ),
                       const SizedBox(height: 2),
                       Text(

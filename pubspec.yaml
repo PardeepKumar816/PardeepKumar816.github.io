@@ -25,9 +25,16 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/
     - assets/icons/
-    - assets/images/projects/
+    - assets/images/
+    - assets/images/projects/listcrime/
+    - assets/images/projects/saveabite/
+    - assets/images/projects/chatsend/
+    - assets/images/projects/litsports/
+    - assets/images/projects/warranty/
+    - assets/images/projects/thrillpay/
+    - assets/images/projects/oceanicview/
+    - assets/images/projects/pelican/
 
 
   fonts:
