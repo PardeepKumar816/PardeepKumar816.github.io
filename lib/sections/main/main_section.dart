@@ -1,162 +1,181 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:protfolio/constants/constants.dart';
-import 'package:protfolio/responsive/responsive.dart';
-import 'package:protfolio/sections/about/about.dart';
-import 'package:protfolio/sections/contact/contact.dart';
-import 'package:protfolio/sections/home/home.dart';
-import 'package:protfolio/sections/home/home_desktop.dart';
-import 'package:protfolio/sections/home/home_tablet.dart';
-import 'package:protfolio/sections/projects/projects.dart';
-import 'package:protfolio/sections/tech/tech.dart';
-import 'package:protfolio/utils/device_size.dart';
-import 'package:protfolio/utils/my_colors.dart';
-import 'package:protfolio/widgets/drawer.dart';
-
-part 'widgets/_body.dart';
+import 'package:protfolio/core/breakpoints.dart';
+import 'package:protfolio/core/section_keys.dart';
+import 'package:protfolio/core/section_navigator.dart';
+import 'package:protfolio/sections/about/about_section.dart';
+import 'package:protfolio/sections/contact/contact_section.dart';
+import 'package:protfolio/sections/education/education_section.dart';
+import 'package:protfolio/sections/experience/experience_section.dart';
+import 'package:protfolio/sections/home/home_section.dart';
+import 'package:protfolio/sections/projects/projects_section.dart';
+import 'package:protfolio/sections/tech/tech_section.dart';
+import 'package:protfolio/widgets/app_nav_bar.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+  const MainPage({super.key});
 
   @override
   State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  late ScrollController _scrollController;
+  late final ScrollController _scrollController;
+  late final ValueNotifier<String> _activeSection;
+  bool _menuOpen = false;
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController(); // Initialize the ScrollController
-    Constants.controller = _scrollController;
+    _scrollController = ScrollController()..addListener(_syncActiveSection);
+    _activeSection = ValueNotifier<String>(SectionId.home);
+    SectionNavigator.bind(_goTo);
   }
 
   @override
   void dispose() {
-    _scrollController.dispose(); // Dispose of the controller when done
+    SectionNavigator.release();
+    _scrollController
+      ..removeListener(_syncActiveSection)
+      ..dispose();
+    _activeSection.dispose();
     super.dispose();
+  }
+
+  void _syncActiveSection() {
+    if (!_scrollController.hasClients) return;
+    final double offset = _scrollController.offset;
+    final double viewport = MediaQuery.sizeOf(context).height;
+    String active = SectionId.home;
+
+    for (final String id in SectionId.nav) {
+      final BuildContext? target = SectionId.keyFor(id).currentContext;
+      if (target == null) continue;
+      final RenderObject? render = target.findRenderObject();
+      if (render is! RenderBox || !render.attached) continue;
+      final double top = render.localToGlobal(Offset.zero).dy;
+      if (offset >= top - viewport * 0.4) active = id;
+    }
+
+    if (active != _activeSection.value) _activeSection.value = active;
+  }
+
+  void _goTo(String id) {
+    setState(() => _menuOpen = false);
+    final BuildContext? target = SectionId.keyFor(id).currentContext;
+    if (target == null) return;
+    Scrollable.ensureVisible(
+      target,
+      duration: const Duration(milliseconds: 520),
+      curve: Curves.easeInOutCubic,
+      alignment: 0.02,
+    );
+  }
+
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 420),
+      curve: Curves.easeOutCubic,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final bool compact = Bp.isMobile(context) || Bp.isTablet(context);
+
     return Scaffold(
-      drawer: const CustomDrawer(),
-      body: Builder(builder: (context) {
-        return SafeArea(
-          child: Container(
-            decoration:
-                const BoxDecoration(gradient: MyColors.linearGradientDark),
-            child: Column(
-              children: [
-                Responsive(
-                  desktop: const HomeBar(),
-                  tablet: getDeviceSize(context).width > 767
-                      ? const TabletBarExtended()
-                      : const TabletBar(),
-                  mobile: const MobileBar(),
+      body: Column(
+        children: <Widget>[
+          AppNavBar(
+            activeSection: _activeSection,
+            onSelect: _goTo,
+            menuOpen: _menuOpen,
+            onMenuChanged: (bool value) => setState(() => _menuOpen = value),
+          ),
+          AnimatedSize(
+            duration: const Duration(milliseconds: 220),
+            curve: Curves.easeOutCubic,
+            alignment: Alignment.topCenter,
+            child: compact && _menuOpen
+                ? _MobileMenu(
+                    activeSection: _activeSection,
+                    onSelect: _goTo,
+                  )
+                : const SizedBox(width: double.infinity),
+          ),
+          Expanded(
+            child: Scrollbar(
+              controller: _scrollController,
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                child: const Column(
+                  children: <Widget>[
+                    HomeSection(),
+                    AboutSection(),
+                    ExperienceSection(),
+                    TechSection(),
+                    ProjectsSection(),
+                    EducationSection(),
+                    ContactSection(),
+                  ],
                 ),
-                Expanded(
-                  child: Stack(
-                    children: [
-                      _Body(scrollController: _scrollController),
-                      Positioned(
-                        right: 0,
-                        top: 1.sh * 0.8,
-                        child: InkWell(
-                          onTap: () {
-                            _scrollController.animateTo(
-                              0,
-                              duration: const Duration(seconds: 1),
-                              curve: Curves.easeInOut,
-                            );
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: 40,
-                            height: 45,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                bottomLeft: Radius.circular(10),
-                              ),
-                            ),
-                            child: const Center(
-                              child: Icon(
-                                Icons.arrow_drop_up,
-                                size: 32,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        );
-      }),
+        ],
+      ),
+      floatingActionButton: ValueListenableBuilder<String>(
+        valueListenable: _activeSection,
+        builder: (BuildContext context, String active, _) {
+          if (active == SectionId.home) return const SizedBox.shrink();
+          return FloatingActionButton.small(
+            onPressed: _scrollToTop,
+            tooltip: 'Back to top',
+            child: const Icon(Icons.keyboard_arrow_up_rounded),
+          );
+        },
+      ),
     );
   }
 }
 
-class MobileBar extends StatelessWidget {
-  const MobileBar({
-    super.key,
+class _MobileMenu extends StatelessWidget {
+  const _MobileMenu({
+    required this.activeSection,
+    required this.onSelect,
   });
+
+  final ValueListenable<String> activeSection;
+  final ValueChanged<String> onSelect;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(gradient: MyColors.linearGradientDark),
-      child: Padding(
-        padding: EdgeInsets.only(
-            left: getDeviceSize(context).width * 0.1,
-            right: getDeviceSize(context).width * 0.05,
-            top: getDeviceSize(context).width * 0.03),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            InkWell(
-              onTap: () {
-                Scaffold.of(context).openDrawer();
-              },
-              child: const Icon(
-                Icons.menu,
-                color: MyColors.yellowE3812A,
-              ),
-            ),
-            const Row(
-              children: [
-                Text(
-                  "< ",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: MyColors.yellowE3812A,
+    final ThemeData theme = Theme.of(context);
+    return Material(
+      color: theme.colorScheme.surface,
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: theme.colorScheme.outlineVariant)),
+        ),
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 18),
+        child: ValueListenableBuilder<String>(
+          valueListenable: activeSection,
+          builder: (BuildContext context, String active, _) {
+            return Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: <Widget>[
+                for (final String id in SectionId.nav)
+                  ChoiceChip(
+                    label: Text(id),
+                    selected: active == id,
+                    onSelected: (_) => onSelect(id),
                   ),
-                ),
-                Text(
-                  "Pardeep",
-                  style: TextStyle(
-                    fontFamily: 'Agustina',
-                    fontSize: 24,
-                    color: MyColors.yellowE3812A,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                Text(
-                  " >",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: MyColors.yellowE3812A,
-                  ),
-                )
               ],
-            ),
-          ],
+            );
+          },
         ),
       ),
     );

@@ -1,38 +1,47 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:protfolio/constants/constants.dart';
-import 'package:protfolio/provider/theme_model.dart';
-import 'package:protfolio/routes/routes.dart';
 import 'package:provider/provider.dart';
+import 'package:protfolio/configs/theme_preferences.dart';
+import 'package:protfolio/provider/theme_model.dart';
+import 'package:protfolio/sections/main/main_section.dart';
+import 'package:protfolio/theme/app_theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const PortfolioApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class PortfolioApp extends StatelessWidget {
+  const PortfolioApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      child: MultiProvider(
-        providers: [
-          ChangeNotifierProvider<ThemeModel>(create: (context) => ThemeModel()),
-        ],
-        child: Builder(builder: (context) {
-          BuildContext rootContext = context;
+    return ChangeNotifierProvider<ThemeModel>(
+      create: (_) => ThemeModel(const ThemePreferences())..load(),
+      child: Consumer<ThemeModel>(
+        builder: (BuildContext context, ThemeModel theme, Widget? child) {
           return MaterialApp(
-            navigatorKey: GlobalContext.navigatorKey,
+            title: 'Pardeep Kumar | Flutter & Backend Engineer',
             debugShowCheckedModeBanner: false,
-            theme: Provider.of<ThemeModel>(rootContext).isDark
-                ? ThemeData.dark()
-                : ThemeData.light(),
-            initialRoute: Routes.mainSection,
-            routes: Routes.getRoutes(context),
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: theme.themeMode,
+            scrollBehavior: const AppScrollBehavior(),
+            home: const MainPage(),
           );
-        }),
+        },
       ),
     );
   }
+}
+
+class AppScrollBehavior extends MaterialScrollBehavior {
+  const AppScrollBehavior();
+
+  @override
+  Set<PointerDeviceKind> get dragDevices => <PointerDeviceKind>{
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.trackpad,
+        PointerDeviceKind.stylus,
+      };
 }

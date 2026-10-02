@@ -2,24 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:protfolio/configs/theme_preferences.dart';
 
 class ThemeModel extends ChangeNotifier {
-  late bool _isDark;
-  late ThemePreferences _themePreferences;
+  ThemeModel(this._preferences);
+
+  final ThemePreferences _preferences;
+  bool _isDark = true;
+
   bool get isDark => _isDark;
 
-  ThemeModel() {
-    _isDark = false;
-    _themePreferences = ThemePreferences();
-    getPreferences();
-  }
+  ThemeMode get themeMode => _isDark ? ThemeMode.dark : ThemeMode.light;
 
-  set isDark(bool value) {
-    _isDark = value;
-    _themePreferences.setTheme(value);
+  Future<void> load() async {
+    _isDark = await _preferences.getTheme();
     notifyListeners();
   }
 
-  getPreferences() async {
-    _isDark = await _themePreferences.getTheme();
+  Future<void> toggle() async {
+    _isDark = !_isDark;
     notifyListeners();
+    await _preferences.setTheme(_isDark);
   }
 }

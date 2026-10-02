@@ -1,0 +1,267 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:protfolio/core/launcher.dart';
+import 'package:protfolio/core/section_keys.dart';
+import 'package:protfolio/data/portfolio_data.dart';
+import 'package:protfolio/provider/theme_model.dart';
+import 'package:protfolio/theme/app_theme.dart';
+
+class AppNavBar extends StatelessWidget {
+  const AppNavBar({
+    super.key,
+    required this.activeSection,
+    required this.onSelect,
+    required this.menuOpen,
+    required this.onMenuChanged,
+  });
+
+  final ValueListenable<String> activeSection;
+  final ValueChanged<String> onSelect;
+  final bool menuOpen;
+  final ValueChanged<bool> onMenuChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final double width = MediaQuery.sizeOf(context).width;
+    final bool compact = width < 1000;
+
+    return _NavSurface(
+      child: Row(
+        children: <Widget>[
+          _Brand(onTap: () => onSelect(SectionId.home)),
+          const Spacer(),
+          if (!compact)
+            for (final String id in SectionId.nav)
+              _NavPill(
+                label: id,
+                active: activeSection.value == id,
+                onTap: () => onSelect(id),
+              ),
+          const Spacer(),
+          _ThemeToggle(onPressed: () {
+            context.read<ThemeModel>().toggle();
+          }),
+          if (!compact) ...<Widget>[
+            const SizedBox(width: 12),
+            _ResumeChip(onTap: () {
+              Launcher.open(context, Profile.resume);
+            }),
+          ],
+          if (compact) ...<Widget>[
+            const SizedBox(width: 8),
+            _MenuButton(
+              open: menuOpen,
+              onPressed: () => onMenuChanged(!menuOpen),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _ResumeChip extends StatelessWidget {
+  const _ResumeChip({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: 'Download resume (PDF)',
+      child: Material(
+        borderRadius: BorderRadius.circular(10),
+        clipBehavior: Clip.antiAlias,
+        child: Ink(
+          decoration: BoxDecoration(
+            gradient: Brand.sunset,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: InkWell(
+            onTap: onTap,
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Icon(Icons.download_rounded, size: 16, color: Colors.white),
+                  SizedBox(width: 7),
+                  Text(
+                    'Resume',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MenuButton extends StatelessWidget {
+  const _MenuButton({required this.open, required this.onPressed});
+
+  final bool open;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: onPressed,
+      tooltip: open ? 'Close menu' : 'Open menu',
+      icon: Icon(open ? Icons.close_rounded : Icons.menu_rounded),
+    );
+  }
+}
+
+class _ThemeToggle extends StatelessWidget {
+  const _ThemeToggle({required this.onPressed});
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isDark = context.watch<ThemeModel>().isDark;
+    return Tooltip(
+      message: isDark ? 'Switch to light theme' : 'Switch to dark theme',
+      child: IconButton(
+        onPressed: onPressed,
+        icon: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 220),
+          transitionBuilder: (Widget child, Animation<double> anim) =>
+              ScaleTransition(scale: anim, child: child),
+          child: Icon(
+            isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
+            key: ValueKey<bool>(isDark),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Brand extends StatelessWidget {
+  const _Brand({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme scheme = Theme.of(context).colorScheme;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              width: 26,
+              height: 26,
+              decoration: BoxDecoration(
+                gradient: Brand.sunset,
+                borderRadius: BorderRadius.circular(7),
+              ),
+              alignment: Alignment.center,
+              child: const Text(
+                'P',
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(width: 9),
+            Text(
+              'Pardeep',
+              style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: scheme.onSurface,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _NavPill extends StatelessWidget {
+  const _NavPill({
+    required this.label,
+    required this.active,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool active;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme scheme = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(9),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
+          decoration: BoxDecoration(
+            color: active
+                ? scheme.primary.withValues(alpha: 0.14)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(9),
+          ),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 13,
+              fontWeight: active ? FontWeight.w600 : FontWeight.w400,
+              color: active ? scheme.primary : scheme.onSurfaceVariant,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _NavSurface extends StatelessWidget {
+  const _NavSurface({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme scheme = Theme.of(context).colorScheme;
+    return Material(
+      color: scheme.surface,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: scheme.outlineVariant)),
+        ),
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.sizeOf(context).width < 600 ? 16 : 28,
+          vertical: 12,
+        ),
+        child: SafeArea(bottom: false, child: child),
+      ),
+    );
+  }
+}
