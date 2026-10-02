@@ -21,6 +21,13 @@ migrate_working_dir/
 # is commented out by default.
 #.vscode/
 
+# VS Code machine-local settings. These hardcode absolute SDK paths
+# (e.g. .fvm/versions/3.32.5) and are specific to one machine. The portable
+# equivalent is .fvmrc, which IS tracked.
+.vscode/settings.json
+.vscode/launch.json
+.vscode/*.local.json
+
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
