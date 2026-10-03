@@ -172,7 +172,7 @@ class _Brand extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(10),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             gradient: Brand.sunset,
             borderRadius: BorderRadius.circular(10),
@@ -181,7 +181,7 @@ class _Brand extends StatelessWidget {
             'Pardeep',
             style: TextStyle(
               fontFamily: 'Agustina',
-              fontSize: 24,
+              fontSize: 16,
               height: 1.15,
               color: Colors.white,
             ),
