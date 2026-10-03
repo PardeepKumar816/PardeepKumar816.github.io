@@ -28,6 +28,9 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/images/projects/listcrime/
+    - assets/images/projects/aitravel/
+    - assets/images/projects/funotel/
+    - assets/images/projects/interviewai/
     - assets/images/projects/saveabite/
     - assets/images/projects/chatsend/
     - assets/images/projects/litsports/

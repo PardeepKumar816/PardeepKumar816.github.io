@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:protfolio/models/project_model.dart';
+import 'package:protfolio/widgets/section.dart';
 import 'package:protfolio/widgets/store_link_button.dart';
 
 class ProjectCard extends StatelessWidget {
-  const ProjectCard({
-    super.key,
-    required this.project,
-    required this.height,
-  });
+  const ProjectCard({super.key, required this.project});
 
   final Project project;
-  final double height;
 
   static String _initials(String name) {
     final List<String> parts = name
@@ -25,141 +21,194 @@ class ProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme scheme = Theme.of(context).colorScheme;
-    final double imageHeight = height * 0.42;
+    final ThemeData theme = Theme.of(context);
+    final ColorScheme scheme = theme.colorScheme;
 
-    return Container(
-      height: height,
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: scheme.outlineVariant),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            height: imageHeight,
-            width: double.infinity,
-            child: project.image == null
-                ? DecoratedBox(
-                    decoration: BoxDecoration(gradient: project.gradient),
-                    child: Center(
-                      child: Text(
-                        _initials(project.name),
-                        style: const TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 40,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white70,
-                        ),
-                      ),
-                    ),
-                  )
-                : Image.asset(
-                    project.image!,
-                    fit: BoxFit.cover,
-                    errorBuilder: (
-                      BuildContext context,
-                      Object error,
-                      StackTrace? stack,
-                    ) =>
-                        DecoratedBox(
-                      decoration: BoxDecoration(gradient: project.gradient),
-                      child: Center(
-                        child: Text(
-                          _initials(project.name),
-                          style: const TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 40,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white70,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+    final Widget body = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Flexible(
+              child: Text(
+                project.name,
+                style: theme.textTheme.headlineSmall?.copyWith(height: 1.2),
+              ),
+            ),
+            if (project.status != ProjectStatus.live) ...<Widget>[
+              const SizedBox(width: 10),
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: _StatusChip(label: project.status.label),
+              ),
+            ],
+          ],
+        ),
+        if (project.metric != null) ...<Widget>[
+          const SizedBox(height: 8),
+          Text(
+            project.metric!,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: scheme.primary,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
-              child: Column(
+        ],
+        const SizedBox(height: 8),
+        TextMeasure(
+          child: Text(project.tagline, style: theme.textTheme.bodyMedium),
+        ),
+        if (project.highlights.isNotEmpty) ...<Widget>[
+          const SizedBox(height: 14),
+          for (final String point in project.highlights)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          project.name,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, right: 10),
+                    child: Container(
+                      width: 4,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: scheme.primary,
+                        shape: BoxShape.circle,
                       ),
-                      if (project.isFlagged) ...<Widget>[
-                        const SizedBox(width: 8),
-                        const _FlagChip(label: 'Unavailable'),
-                      ],
-                    ],
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    project.tagline,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  const Spacer(),
-                  if (project.stack.isNotEmpty) ...<Widget>[
-                    Wrap(
-                      spacing: 6,
-                      runSpacing: 6,
-                      children: <Widget>[
-                        for (final String item in project.stack)
-                          _Tag(label: item),
-                      ],
                     ),
-                    const SizedBox(height: 10),
-                  ],
-                  Row(
-                    children: <Widget>[
-                      if (project.playStoreLink != null)
-                        StoreLinkButton(
-                          label: 'Play',
-                          iconPath: 'assets/icons/google_play.svg',
-                          url: project.playStoreLink,
-                        ),
-                      if (project.appStoreLink != null) ...<Widget>[
-                        if (project.playStoreLink != null)
-                          const SizedBox(width: 8),
-                        Tooltip(
-                          message: project.note ?? 'Open App Store',
-                          child: StoreLinkButton(
-                            label: 'App Store',
-                            iconPath: 'assets/icons/appstore.svg',
-                            url: project.appStoreLink,
-                          ),
-                        ),
-                      ],
-                      if (project.githubLink != null) ...<Widget>[
-                        const SizedBox(width: 8),
-                        StoreLinkButton(
-                          label: 'GitHub',
-                          iconPath: 'assets/icons/github.svg',
-                          url: project.githubLink,
-                        ),
-                      ],
-                    ],
+                  ),
+                  Expanded(
+                    child: Text(point, style: theme.textTheme.bodySmall),
                   ),
                 ],
               ),
             ),
+        ],
+        if (project.stack.isNotEmpty) ...<Widget>[
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: <Widget>[
+              for (final String item in project.stack) _Tag(label: item),
+            ],
           ),
         ],
+        const SizedBox(height: 14),
+        Row(
+          children: <Widget>[
+            for (int i = 0; i < project.links.length; i++) ...<Widget>[
+              if (i > 0) const SizedBox(width: 8),
+              StoreLinkButton(
+                label: project.links[i].label,
+                iconPath: project.links[i].iconPath,
+                url: project.links[i].url,
+                pendingMessage: project.links[i].pendingMessage,
+              ),
+            ],
+            if (!project.hasLinks && !project.hasPendingLinks)
+              Text(
+                project.status == ProjectStatus.privateClient
+                    ? 'Private client delivery — not publicly launched'
+                    : 'No public link yet',
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: scheme.onSurfaceVariant,
+                ),
+              ),
+          ],
+        ),
+      ],
+    );
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 28),
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          final bool stacked = constraints.maxWidth < 720;
+          final Widget thumb = _Thumb(project: project);
+
+          if (stacked) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  height: project.portraitImage ? 210 : 150,
+                  width: double.infinity,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: _Thumb(project: project, fill: true),
+                  ),
+                ),
+                const SizedBox(height: 18),
+                body,
+              ],
+            );
+          }
+
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              thumb,
+              const SizedBox(width: 28),
+              Expanded(child: body),
+            ],
+          );
+        },
       ),
     );
+  }
+}
+
+class _Thumb extends StatelessWidget {
+  const _Thumb({required this.project, this.fill = false});
+
+  final Project project;
+  final bool fill;
+
+  @override
+  Widget build(BuildContext context) {
+    final Widget placeholder = DecoratedBox(
+      decoration: BoxDecoration(gradient: project.gradient),
+      child: Center(
+        child: Text(
+          ProjectCard._initials(project.name),
+          style: const TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: Colors.white70,
+          ),
+        ),
+      ),
+    );
+
+    final double width = project.portraitImage ? 130 : 160;
+    final double height = project.portraitImage ? 180 : 100;
+
+    if (project.image == null) {
+      return fill
+          ? placeholder
+          : SizedBox(width: width, height: height, child: placeholder);
+    }
+
+    final Widget image = Image.asset(
+      project.image!,
+      fit: BoxFit.cover,
+      errorBuilder: (
+        BuildContext context,
+        Object error,
+        StackTrace? stack,
+      ) =>
+          placeholder,
+    );
+
+    return fill
+        ? image
+        : ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: SizedBox(width: width, height: height, child: image),
+          );
   }
 }
 
@@ -174,8 +223,9 @@ class _Tag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
       decoration: BoxDecoration(
-        color: scheme.primary.withValues(alpha: 0.12),
+        color: scheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: scheme.outlineVariant),
       ),
       child: Text(
         label,
@@ -183,33 +233,34 @@ class _Tag extends StatelessWidget {
           fontFamily: 'Poppins',
           fontSize: 11,
           fontWeight: FontWeight.w500,
-          color: scheme.primary,
+          color: scheme.onSurfaceVariant,
         ),
       ),
     );
   }
 }
 
-class _FlagChip extends StatelessWidget {
-  const _FlagChip({required this.label});
+class _StatusChip extends StatelessWidget {
+  const _StatusChip({required this.label});
 
   final String label;
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme scheme = Theme.of(context).colorScheme;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.tertiaryContainer,
         borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: scheme.outlineVariant),
       ),
       child: Text(
         label,
         style: TextStyle(
           fontFamily: 'Poppins',
-          fontSize: 10,
+          fontSize: 10.5,
           fontWeight: FontWeight.w600,
-          color: Theme.of(context).colorScheme.onTertiaryContainer,
+          color: scheme.onSurfaceVariant,
         ),
       ),
     );

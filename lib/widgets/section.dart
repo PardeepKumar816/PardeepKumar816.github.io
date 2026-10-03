@@ -22,33 +22,49 @@ class ContentWidth extends StatelessWidget {
   }
 }
 
+/// Caps a run of prose at a comfortable measure so line lengths stay readable
+/// on wide monitors instead of stretching edge to edge.
+class TextMeasure extends StatelessWidget {
+  const TextMeasure({super.key, required this.child, this.maxWidth = 680});
+
+  final Widget child;
+  final double maxWidth;
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: maxWidth),
+      child: child,
+    );
+  }
+}
+
 class Section extends StatelessWidget {
   const Section({
     super.key,
     required this.id,
     required this.child,
-    this.tone = SectionTone.base,
     this.verticalPadding,
+    this.divided = true,
   });
 
   final String id;
   final Widget child;
-  final SectionTone tone;
   final double? verticalPadding;
+  final bool divided;
 
   @override
   Widget build(BuildContext context) {
     final ColorScheme scheme = Theme.of(context).colorScheme;
-    final Color background = switch (tone) {
-      SectionTone.base => scheme.surface,
-      SectionTone.raised => scheme.surfaceContainerLow,
-      SectionTone.sunken => scheme.surfaceContainerLowest,
-    };
-    final double pad = verticalPadding ??
-        (Bp.isMobile(context) ? 56 : 88);
+    final double pad = verticalPadding ?? (Bp.isMobile(context) ? 60 : 92);
 
-    return ColoredBox(
-      color: background,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: scheme.surface,
+        border: divided
+            ? Border(top: BorderSide(color: scheme.outlineVariant))
+            : null,
+      ),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: pad),
         child: ContentWidth(child: child),
@@ -56,5 +72,3 @@ class Section extends StatelessWidget {
     );
   }
 }
-
-enum SectionTone { base, raised, sunken }

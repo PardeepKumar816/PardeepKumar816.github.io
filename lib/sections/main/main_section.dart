@@ -11,6 +11,7 @@ import 'package:protfolio/sections/home/home_section.dart';
 import 'package:protfolio/sections/projects/projects_section.dart';
 import 'package:protfolio/sections/tech/tech_section.dart';
 import 'package:protfolio/widgets/app_nav_bar.dart';
+import 'package:protfolio/widgets/reveal_on_scroll.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -109,15 +110,21 @@ class _MainPageState extends State<MainPage> {
               controller: _scrollController,
               child: SingleChildScrollView(
                 controller: _scrollController,
-                child: const Column(
+                child: Column(
                   children: <Widget>[
-                    HomeSection(),
-                    AboutSection(),
-                    ExperienceSection(),
-                    TechSection(),
-                    ProjectsSection(),
-                    EducationSection(),
-                    ContactSection(),
+                    for (final Widget section in const <Widget>[
+                      HomeSection(),
+                      AboutSection(),
+                      ExperienceSection(),
+                      TechSection(),
+                      ProjectsSection(),
+                      EducationSection(),
+                      ContactSection(),
+                    ])
+                      RevealOnScroll(
+                        controller: _scrollController,
+                        child: section,
+                      ),
                   ],
                 ),
               ),
@@ -157,7 +164,8 @@ class _MobileMenu extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: theme.colorScheme.outlineVariant)),
+          border: Border(
+              bottom: BorderSide(color: theme.colorScheme.outlineVariant)),
         ),
         padding: const EdgeInsets.fromLTRB(20, 10, 20, 18),
         child: ValueListenableBuilder<String>(

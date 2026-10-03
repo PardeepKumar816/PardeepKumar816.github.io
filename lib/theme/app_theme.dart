@@ -73,7 +73,8 @@ abstract final class AppTheme {
       textTheme: AppTypography.build(scheme),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        backgroundColor: isDark ? scheme.surfaceContainerHigh : const Color(0xFF2A2430),
+        backgroundColor:
+            isDark ? scheme.surfaceContainerHigh : const Color(0xFF2A2430),
         contentTextStyle: TextStyle(
           fontFamily: 'Poppins',
           color: scheme.onSurface,

@@ -16,19 +16,19 @@ class EducationSection extends StatelessWidget {
     return Section(
       key: SectionKeys.education,
       id: SectionId.education,
-      tone: SectionTone.base,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const SectionHeader(title: 'Education'),
+          const SectionHeader(
+            title: 'Education',
+            subtitle: 'Computer engineering, built on a solid foundation.',
+          ),
           const SizedBox(height: 24),
           for (final Education item in PortfolioData.education)
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.symmetric(vertical: 22),
               decoration: BoxDecoration(
-                color: scheme.surfaceContainerLow,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: scheme.outlineVariant),
+                border: Border(top: BorderSide(color: scheme.outlineVariant)),
               ),
               child: LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
@@ -40,15 +40,21 @@ class EducationSection extends StatelessWidget {
                       Text(
                         item.institution,
                         style: theme.textTheme.bodyMedium?.copyWith(
-                          color: scheme.primary,
-                          fontWeight: FontWeight.w600,
+                          color: scheme.onSurfaceVariant,
                         ),
                       ),
                     ],
                   );
-                  final Widget right = Text(
-                    '${item.period} · ${item.detail}',
-                    style: theme.textTheme.labelMedium,
+                  final Widget right = Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Text(
+                        item.period,
+                        style: theme.textTheme.labelLarge,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(item.detail, style: theme.textTheme.labelSmall),
+                    ],
                   );
 
                   return constraints.maxWidth < 560
@@ -56,11 +62,12 @@ class EducationSection extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             left,
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 12),
                             right,
                           ],
                         )
                       : Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Expanded(child: left),
                             right,

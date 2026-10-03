@@ -3,10 +3,10 @@ class Experience {
     required this.role,
     required this.company,
     required this.period,
-    required this.summary,
-    required this.highlights,
+    this.highlights = const <String>[],
     this.location,
-    this.stack = const [],
+    this.mode,
+    this.stack = const <String>[],
     this.current = false,
   });
 
@@ -14,7 +14,7 @@ class Experience {
   final String company;
   final String period;
   final String? location;
-  final String summary;
+  final String? mode;
   final List<String> highlights;
   final List<String> stack;
   final bool current;
@@ -39,11 +39,28 @@ class SkillGroup {
 
   final String title;
   final List<Skill> skills;
+
+  /// Skills that are named products or tools. Concepts are engineering
+  /// practices, which have no brand mark by nature.
+  ///
+  /// Usually inferred from [Skill.hasIcon], but [Skill.tool] forces a real tool
+  /// into this tier when no brand icon exists for it, so it is not demoted to a
+  /// concept.
+  List<Skill> get tools =>
+      skills.where((Skill s) => s.hasIcon || s.tool).toList(growable: false);
+
+  List<Skill> get concepts =>
+      skills.where((Skill s) => !s.hasIcon && !s.tool).toList(growable: false);
 }
 
 class Skill {
-  const Skill({required this.name, required this.icon});
+  const Skill({required this.name, this.icon, this.tool = false});
 
   final String name;
-  final String icon;
+  final String? icon;
+
+  /// Marks a genuine tool that has no available brand icon.
+  final bool tool;
+
+  bool get hasIcon => icon != null;
 }

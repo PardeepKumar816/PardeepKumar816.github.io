@@ -4,8 +4,7 @@ abstract final class Bp {
   static const double mobileMax = 600;
   static const double tabletMax = 1000;
 
-  static double width(BuildContext context) =>
-      MediaQuery.sizeOf(context).width;
+  static double width(BuildContext context) => MediaQuery.sizeOf(context).width;
 
   static bool isMobile(BuildContext context) => width(context) < mobileMax;
 

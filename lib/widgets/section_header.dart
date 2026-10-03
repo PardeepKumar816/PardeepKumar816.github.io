@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:protfolio/theme/app_theme.dart';
+import 'package:protfolio/widgets/section.dart';
 
 class SectionHeader extends StatelessWidget {
   const SectionHeader({
@@ -19,20 +19,24 @@ class SectionHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: alignment,
       children: <Widget>[
-        Container(
-          width: 44,
-          height: 3,
-          decoration: BoxDecoration(
-            gradient: Brand.sunset,
-            borderRadius: BorderRadius.circular(2),
+        Align(
+          alignment: alignment == CrossAxisAlignment.center
+              ? Alignment.center
+              : Alignment.centerLeft,
+          child: Container(
+            width: 36,
+            height: 2,
+            color: theme.colorScheme.primary,
           ),
         ),
         const SizedBox(height: 18),
-        Text(title, style: theme.textTheme.displaySmall),
+        Text(
+          title,
+          style: theme.textTheme.displaySmall?.copyWith(height: 1.12),
+        ),
         if (subtitle != null) ...<Widget>[
-          const SizedBox(height: 12),
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 640),
+          const SizedBox(height: 14),
+          TextMeasure(
             child: Text(subtitle!, style: theme.textTheme.bodyLarge),
           ),
         ],

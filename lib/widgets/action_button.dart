@@ -20,13 +20,23 @@ class ActionButton extends StatelessWidget {
     final ColorScheme scheme = Theme.of(context).colorScheme;
     final bool enabled = onPressed != null;
 
+    // The primary variant always sits on the fixed brand gradient, so its
+    // foreground stays white in both light and dark mode. The icon colour is
+    // set explicitly too, since Icon resolves from IconTheme rather than
+    // DefaultTextStyle.
+    final Color foreground = switch (variant) {
+      ActionVariant.primary => Colors.white,
+      ActionVariant.secondary => scheme.onSurface,
+      ActionVariant.ghost => scheme.primary,
+    };
+
     late final Widget content = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           if (icon != null) ...<Widget>[
-            Icon(icon, size: 18),
+            Icon(icon, size: 18, color: foreground),
             const SizedBox(width: 10),
           ],
           Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
@@ -48,7 +58,7 @@ class ActionButton extends StatelessWidget {
               child: InkWell(
                 onTap: onPressed,
                 child: DefaultTextStyle.merge(
-                  style: TextStyle(color: scheme.onPrimary, fontSize: 14.5),
+                  style: TextStyle(color: foreground, fontSize: 14.5),
                   child: content,
                 ),
               ),
@@ -62,7 +72,7 @@ class ActionButton extends StatelessWidget {
                   border: Border.all(color: scheme.outlineVariant),
                 ),
                 child: DefaultTextStyle.merge(
-                  style: TextStyle(color: scheme.onSurface, fontSize: 14.5),
+                  style: TextStyle(color: foreground, fontSize: 14.5),
                   child: content,
                 ),
               ),
@@ -71,7 +81,7 @@ class ActionButton extends StatelessWidget {
               onTap: onPressed,
               borderRadius: BorderRadius.circular(12),
               child: DefaultTextStyle.merge(
-                style: TextStyle(color: scheme.primary, fontSize: 14.5),
+                style: TextStyle(color: foreground, fontSize: 14.5),
                 child: content,
               ),
             ),

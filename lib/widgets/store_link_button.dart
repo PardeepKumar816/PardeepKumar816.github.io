@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:protfolio/core/icon_tint.dart';
 import 'package:protfolio/core/launcher.dart';
 
 class StoreLinkButton extends StatelessWidget {
   const StoreLinkButton({
     super.key,
     required this.label,
-    required this.iconPath,
     required this.url,
+    this.iconPath,
     this.pendingMessage,
   });
 
   final String label;
-  final String iconPath;
   final String? url;
+  final String? iconPath;
   final String? pendingMessage;
 
   @override
@@ -22,9 +23,8 @@ class StoreLinkButton extends StatelessWidget {
     final bool available = url != null && url!.trim().isNotEmpty;
 
     return Tooltip(
-      message: available
-          ? 'Open $label'
-          : (pendingMessage ?? 'Link coming soon'),
+      message:
+          available ? 'Open $label' : (pendingMessage ?? 'Link coming soon'),
       child: Material(
         color: scheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(10),
@@ -49,8 +49,13 @@ class StoreLinkButton extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                SvgPicture.asset(iconPath, width: 17, height: 17),
-                const SizedBox(width: 7),
+                if (iconPath != null) ...<Widget>[
+                  ColorFiltered(
+                    colorFilter: monochrome(scheme.onSurface),
+                    child: SvgPicture.asset(iconPath!, width: 17, height: 17),
+                  ),
+                  const SizedBox(width: 7),
+                ],
                 Text(
                   label,
                   style: TextStyle(

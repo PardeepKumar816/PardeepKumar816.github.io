@@ -5,7 +5,8 @@ abstract final class AppTypography {
     final Color heading = scheme.onSurface;
     final Color muted = scheme.onSurfaceVariant;
 
-    TextStyle h(double size, FontWeight weight, {double? height, Color? color}) =>
+    TextStyle h(double size, FontWeight weight,
+            {double? height, Color? color}) =>
         TextStyle(
           fontFamily: 'Montserrat',
           fontSize: size,
@@ -15,7 +16,8 @@ abstract final class AppTypography {
           color: color ?? heading,
         );
 
-    TextStyle b(double size, FontWeight weight, {double? height, Color? color}) =>
+    TextStyle b(double size, FontWeight weight,
+            {double? height, Color? color}) =>
         TextStyle(
           fontFamily: 'Poppins',
           fontSize: size,

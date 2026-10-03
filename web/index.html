@@ -19,12 +19,14 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pardeep Kumar — full stack mobile and backend engineer working across Flutter, Node.js and AI systems.">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="portfolio">
+  <meta name="apple-mobile-web-app-title" content="Pardeep Kumar">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
@@ -33,38 +35,69 @@
   <title>Pardeep Kumar</title>
   <link rel="manifest" href="manifest.json">
   <style>
-    .container {
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      /* Default Axis is X*/
-      justify-content: center;
-      /* Main Axis */
-      align-items: center;
-      /* Cross Axis */
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #12100f;
     }
 
-    .indicator {
-      width: 5vw;
+    #loading_indicator {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 260ms ease;
+    }
+
+    #loading_indicator .mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #f97316, #db2777);
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.35;
+        transform: scale(0.92);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #loading_indicator .mark {
+        animation: none;
+        opacity: 0.9;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div id="loading_indicator" class="container">
-    <img class="indicator" src="./assets/loading.gif" />
+  <div id="loading_indicator">
+    <div class="mark"></div>
   </div>
   <script src="flutter_bootstrap.js" async></script>
-  <!-- <script>
-    window.onload = function () {
+  <script>
+    window.addEventListener("flutter-first-frame", function () {
+      var indicator = document.getElementById("loading_indicator");
+      if (!indicator) return;
+      indicator.style.opacity = "0";
       setTimeout(function () {
-        var loadingIndicator = document.getElementById("loading_indicator");
-        if (loadingIndicator) {
-          loadingIndicator.remove();
-        }
-      }, 10000);
-    };
-  </script> -->
+        indicator.remove();
+      }, 300);
+    });
+  </script>
 </body>
 
 </html>

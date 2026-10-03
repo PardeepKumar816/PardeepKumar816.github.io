@@ -32,12 +32,22 @@ class AppNavBar extends StatelessWidget {
           _Brand(onTap: () => onSelect(SectionId.home)),
           const Spacer(),
           if (!compact)
-            for (final String id in SectionId.nav)
-              _NavPill(
-                label: id,
-                active: activeSection.value == id,
-                onTap: () => onSelect(id),
-              ),
+            ValueListenableBuilder<String>(
+              valueListenable: activeSection,
+              builder: (BuildContext context, String active, _) {
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    for (final String id in SectionId.nav)
+                      _NavPill(
+                        label: id,
+                        active: active == id,
+                        onTap: () => onSelect(id),
+                      ),
+                  ],
+                );
+              },
+            ),
           const Spacer(),
           _ThemeToggle(onPressed: () {
             context.read<ThemeModel>().toggle();
@@ -213,27 +223,49 @@ class _NavPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme scheme = Theme.of(context).colorScheme;
+    final bool animate = !MediaQuery.disableAnimationsOf(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(9),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
-          decoration: BoxDecoration(
-            color: active
-                ? scheme.primary.withValues(alpha: 0.14)
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(9),
-          ),
-          child: Text(
-            label,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 13,
-              fontWeight: active ? FontWeight.w600 : FontWeight.w400,
-              color: active ? scheme.primary : scheme.onSurfaceVariant,
+          child: IntrinsicWidth(
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: <Widget>[
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 13,
+                    fontWeight: active ? FontWeight.w600 : FontWeight.w400,
+                    color: active ? scheme.onSurface : scheme.onSurfaceVariant,
+                  ),
+                ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: -5,
+                  child: AnimatedScale(
+                    scale: active ? 1 : 0,
+                    duration: animate
+                        ? const Duration(milliseconds: 200)
+                        : Duration.zero,
+                    curve: Curves.easeOutCubic,
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 2,
+                      decoration: BoxDecoration(
+                        color: scheme.primary,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
