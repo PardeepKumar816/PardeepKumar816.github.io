@@ -165,44 +165,27 @@ class _Brand extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme scheme = Theme.of(context).colorScheme;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Container(
-              width: 26,
-              height: 26,
-              decoration: BoxDecoration(
-                gradient: Brand.sunset,
-                borderRadius: BorderRadius.circular(7),
-              ),
-              alignment: Alignment.center,
-              child: const Text(
-                'P',
-                style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
-                  color: Colors.white,
-                ),
-              ),
+    return Semantics(
+      button: true,
+      label: 'Back to top',
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+          decoration: BoxDecoration(
+            gradient: Brand.sunset,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const Text(
+            'Pardeep',
+            style: TextStyle(
+              fontFamily: 'Agustina',
+              fontSize: 24,
+              height: 1.15,
+              color: Colors.white,
             ),
-            const SizedBox(width: 9),
-            Text(
-              'Pardeep',
-              style: TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: scheme.onSurface,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

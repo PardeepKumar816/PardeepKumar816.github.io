@@ -8,6 +8,7 @@ import 'package:protfolio/data/portfolio_data.dart';
 import 'package:protfolio/models/portfolio_models.dart';
 import 'package:protfolio/models/project_model.dart';
 import 'package:protfolio/widgets/action_button.dart';
+import 'package:protfolio/widgets/app_nav_bar.dart';
 import 'package:protfolio/widgets/reveal_on_scroll.dart';
 import 'package:protfolio/widgets/project_card.dart';
 import 'package:protfolio/widgets/skill_grid.dart';
@@ -331,6 +332,29 @@ void main() {
               'pubspec.yaml, so it will 404 in the browser',
         );
       }
+    });
+  });
+
+  group('nav brand', () {
+    testWidgets('renders the name in the signature font, not an initial', (
+      WidgetTester tester,
+    ) async {
+      await pumpApp(tester, viewports['laptop 1366x768']!);
+
+      final Finder brand = find.text('Pardeep');
+      expect(brand, findsOneWidget);
+
+      final TextStyle style = tester.widget<Text>(brand).style!;
+      expect(
+        style.fontFamily,
+        'Agustina',
+        reason: 'the brand should use the signature font',
+      );
+      expect(
+        find.descendant(of: find.byType(AppNavBar), matching: find.text('P')),
+        findsNothing,
+        reason: 'the single-initial avatar should not come back',
+      );
     });
   });
 
