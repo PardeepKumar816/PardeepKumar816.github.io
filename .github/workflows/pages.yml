@@ -30,6 +30,22 @@ jobs:
       - run: flutter test
       - run: flutter build web --release --base-href /
 
+      # Flutter does not fail the build when a declared asset folder is
+      # missing; the 404 only shows up in the browser. Assert the artifact.
+      - name: Verify build artifact
+        run: |
+          set -euo pipefail
+          test -f build/web/index.html
+          test -f build/web/robots.txt
+          grep -q noindex build/web/index.html
+          grep -oE '^\s+- assets/[^ ]*/' pubspec.yaml | tr -d ' -' > /tmp/dirs.txt
+          while read -r dir; do
+            if [ ! -d "build/web/assets/$dir" ]; then
+              echo "asset folder missing from artifact: $dir"
+              exit 1
+            fi
+          done < /tmp/dirs.txt
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: build/web
